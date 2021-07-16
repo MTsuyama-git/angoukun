@@ -15,6 +15,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.IO;
 using System.ComponentModel;
+using Microsoft.Win32;
 
 namespace angoukun
 {
@@ -46,7 +47,7 @@ namespace angoukun
                     }
                 }
             }
-            
+
         }
 
         public MainWindow()
@@ -57,6 +58,46 @@ namespace angoukun
             this.cacheFile = System.IO.Path.Combine(cacheDir, Constants.CacheName);
             Directory.CreateDirectory(cacheDir);
             this.loadCache();
+            contactList.ItemsSource = contacts;
+        }
+
+        public void ProceedEncrypt(object sender, RoutedEventArgs e)
+        {
+            if(contactList.SelectedItem == null)
+            {
+                MessageBox.Show("Please select receipient.");
+            }
+            else if(FilePath.Text == "")
+            {
+                MessageBox.Show("Please select a file to encrypt.");
+            }
+            SaveFileDialog dialog = new ();
+            dialog.Filter = "AES File(*.aes)|*.aes";
+            if (dialog.ShowDialog() == true)
+            {
+                MessageBox.Show(dialog.FileName);
+                contactList.SelectedItem = null;
+                FilePath.Text = "";
+            }
+        }
+        
+        public void ProceedClear(object sender, RoutedEventArgs e)
+        {
+            FilePath.Text = "";
+            contactList.SelectedItem = null;
+        }
+
+        public void OpenFile(object sender, RoutedEventArgs e)
+        {
+            OpenFileDialog dialog = new ();
+            dialog.Filter = "All Files(*.*)|*.*";
+            if (dialog.ShowDialog() == true)
+            {
+                FilePath.Text = dialog.FileName;
+
+                // MessageBox.Show(dialog.FileName);
+            }
+            return;
         }
 
         public void saveCache(object sender, CancelEventArgs e)

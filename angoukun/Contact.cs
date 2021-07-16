@@ -12,6 +12,14 @@ namespace angoukun
         public string LastName { get; set; }
         public string PubKey { get; set; }
 
+        public string FullName
+        {
+            get
+            {
+                return this.FirstName + " " + this.LastName;
+            }
+        }
+
         public string PubKeyLine
         {
             get

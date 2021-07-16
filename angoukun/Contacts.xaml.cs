@@ -61,6 +61,9 @@ namespace angoukun
                 {
                     this.contacts.Add(new Contact(FirstName.Text, LastName.Text, PubKeyPreview.Text));
                 }
+                FirstName.Text = "";
+                LastName.Text = "";
+                PubKeyPreview.Text = "";
             }
             ContactList.UnselectAll();
             ContactList.Items.Refresh();

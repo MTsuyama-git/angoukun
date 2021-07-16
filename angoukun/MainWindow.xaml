@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:angoukun"
         mc:Ignorable="d"
         Closing="saveCache"
-        Title="MainWindow" Height="450" Width="800">
+        Title="MainWindow" Height="200" Width="800">
     <DockPanel>
         <Menu DockPanel.Dock="Top">
             <MenuItem Header="File">
@@ -18,6 +18,23 @@
             
         </Menu>
         <StackPanel>
+            <Label>
+                <AccessText Text="Receipient:"></AccessText>
+            </Label>
+            <ComboBox Name="contactList" DisplayMemberPath="FullName"></ComboBox>
+            <Label>
+                <AccessText Text="File:"></AccessText>
+            </Label>
+            <StackPanel Orientation="Horizontal" Background="GhostWhite">
+                <Label>
+                    <AccessText Name="FilePath" Width="700" Text=""></AccessText>
+                </Label>
+                <Button Margin="10,0,0,0" Width="20" Grid.Column="1" Content="..." VerticalAlignment="Center" Click="OpenFile"></Button>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,10,0,0">
+                <Button Content="Encrypt" Click="ProceedEncrypt" Margin="0,0,10,0"></Button>
+                <Button Content="Clear" Click="ProceedClear" Margin="0,0,10,0"></Button>
+            </StackPanel>
         </StackPanel>
     </DockPanel>
 
