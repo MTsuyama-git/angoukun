@@ -16,6 +16,8 @@ using System.Windows.Shapes;
 using System.IO;
 using System.ComponentModel;
 using Microsoft.Win32;
+using Utility;
+using System.Security.Cryptography;
 
 namespace angoukun
 {
@@ -61,6 +63,11 @@ namespace angoukun
             contactList.ItemsSource = contacts;
         }
 
+        public string passwordCb()
+        {
+            return "";
+        }
+
         public void ProceedEncrypt(object sender, RoutedEventArgs e)
         {
             if(contactList.SelectedItem == null)
@@ -75,7 +82,45 @@ namespace angoukun
             dialog.Filter = "AES File(*.aes)|*.aes";
             if (dialog.ShowDialog() == true)
             {
-                MessageBox.Show(dialog.FileName);
+                //MessageBox.Show(dialog.FileName);
+                
+                try
+                {
+                    //MessageBox.Show(((Contact)contactList.SelectedItem).PubKey);
+                    using FileStream inputStream = new(FilePath.Text, FileMode.Open);
+                    using FileStream outputStream = new(dialog.FileName, FileMode.Create);
+                    using BinaryWriter bw = new(outputStream);
+                    Span<byte> readBuffer = new(new byte[8192]);
+                    RSACryptoServiceProvider rsa = SSHKeyManager.ReadSSHPublicKeyFromContent(((Contact)contactList.SelectedItem).PubKey);
+                    byte[] passKey = PassphraseGenerator.Generate(128);
+                    byte[] cipherBytes = rsa.Encrypt(passKey, RSAEncryptionPadding.Pkcs1);
+                    bw.Write(Utility.ByteConverter.convertToByte((ushort)(cipherBytes.Length & 0xFFFF), Endian.LITTLE));
+                    bw.Write(cipherBytes);
+                    // generate salt
+                    byte[] magic = Encoding.UTF8.GetBytes("Salted__"); // magic
+                    byte[] salt = PassphraseGenerator.Generate(8); // PKCS5_SALT_LEN = 8
+                    bw.Write(magic);
+                    bw.Write(salt);
+                    Rfc2898DeriveBytes b = new(passKey, salt, 10000, HashAlgorithmName.SHA256);
+                    byte[] keyIv = b.GetBytes(48);
+                    Aes encAlg = Aes.Create();
+                    encAlg.Key = Misc.BlockCopy(keyIv, 0, 32);
+                    encAlg.IV = Misc.BlockCopy(keyIv, 32, 16);
+                    int readLen = 0;
+
+                    using CryptoStream encrypt = new(outputStream, encAlg.CreateEncryptor(), CryptoStreamMode.Write);
+                    while ((readLen = inputStream.Read(readBuffer)) > 0)
+                    {
+                        encrypt.Write(readBuffer.ToArray(), 0, readLen);
+                    }
+                    encrypt.FlushFinalBlock();
+                    encrypt.Close();
+
+                }
+                catch (Exception exception)
+                {
+                    _ = MessageBox.Show(exception.Message);
+                }
                 contactList.SelectedItem = null;
                 FilePath.Text = "";
             }
