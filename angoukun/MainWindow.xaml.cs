@@ -1,24 +1,15 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using System.IO;
 using System.ComponentModel;
 using Microsoft.Win32;
 using Utility;
 using System.Security.Cryptography;
 using System.Threading;
+
+using Forms = System.Windows.Forms;
 
 namespace angoukun
 {
@@ -27,10 +18,10 @@ namespace angoukun
     /// </summary>
     public partial class MainWindow : Window
     {
-        ObservableCollection<Contact> contacts = null;
-        string cacheFile = "";
+        private ObservableCollection<Contact> contacts = null;
+        private readonly string cacheFile = "";
 
-        private void loadCache()
+        private void LoadCache()
         {
             char[] del = { ',' };
             string line;
@@ -41,7 +32,7 @@ namespace angoukun
                 {
                     while ((line = fr.ReadLine()) != null)
                     {
-                        var items = line.Split(del, StringSplitOptions.RemoveEmptyEntries);
+                        string[] items = line.Split(del, StringSplitOptions.RemoveEmptyEntries);
                         if (items.Length == 3)
                         {
                             items[2] = items[2].Replace("<BR>", "\n");
@@ -85,13 +76,8 @@ namespace angoukun
             string cacheDir = System.IO.Path.Combine(appdata, Constants.Vendor, Constants.AppName);
             this.cacheFile = System.IO.Path.Combine(cacheDir, Constants.CacheName);
             Directory.CreateDirectory(cacheDir);
-            this.loadCache();
+            this.LoadCache();
             contactList.ItemsSource = contacts;
-        }
-
-        public string passwordCb()
-        {
-            return "";
         }
 
         public void ProceedEncryptCore(object Obj)
@@ -189,6 +175,15 @@ namespace angoukun
         {
             FilePath.Text = "";
             contactList.SelectedItem = null;
+        }
+
+        public void OpenFolder(object sender, RoutedEventArgs e)
+        {
+            Forms.FolderBrowserDialog dialog = new();
+            if(dialog.ShowDialog() == Forms.DialogResult.OK)
+            {
+                FilePath.Text = dialog.SelectedPath;
+            }
         }
 
         public void OpenFile(object sender, RoutedEventArgs e)

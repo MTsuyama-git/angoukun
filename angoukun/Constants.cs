@@ -11,5 +11,6 @@ namespace angoukun
         public static readonly string Vendor = "tsuya";
         public static readonly string AppName = "EncryptBoy";
         public static readonly string CacheName = ".cache";
+        public static readonly string Protocol = "2.0";
     }
 }

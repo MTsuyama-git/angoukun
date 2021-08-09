@@ -4,10 +4,21 @@
     <OutputType>WinExe</OutputType>
     <TargetFramework>net5.0-windows</TargetFramework>
     <UseWPF>true</UseWPF>
+    <UseWindowsForms>true</UseWindowsForms>
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Assets\EncryptFile.png" />
+    <None Remove="Assets\EncryptFolder.png" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\Utility\Utility.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Assets\EncryptFile.png" />
+    <Resource Include="Assets\EncryptFolder.png" />
   </ItemGroup>
 
 </Project>

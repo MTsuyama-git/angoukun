@@ -6,41 +6,86 @@
         xmlns:local="clr-namespace:angoukun"
         mc:Ignorable="d"
         Closing="saveCache"
-        Title="MainWindow" Height="200" Width="800">
-    <DockPanel>
-        <Menu DockPanel.Dock="Top">
-            <MenuItem Header="File">
-                <MenuItem Header="Contacts" Click="OpenContacts">
-                    
-                </MenuItem>
-                          
-            </MenuItem>
-            
-        </Menu>
-        <StackPanel>
-            <Label>
-                <AccessText Text="Receipient:"></AccessText>
-            </Label>
-            <ComboBox Name="contactList" DisplayMemberPath="FullName"></ComboBox>
-            <Label>
-                <AccessText Text="File:"></AccessText>
-            </Label>
-            <StackPanel Orientation="Horizontal" Background="GhostWhite">
-                <Label>
-                    <AccessText Name="FilePath" Width="700" Text=""></AccessText>
-                </Label>
-                <Button Margin="10,0,0,0" Width="20" Grid.Column="1" Content="..." VerticalAlignment="Center" Click="OpenFile"></Button>
-            </StackPanel>
-            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Margin="0,10,0,0">
-                <StackPanel Orientation="Horizontal" Width="390px" Margin="10,0,0,0" HorizontalAlignment="Left">
-                    <ProgressBar x:Name="Progress0" Height="20px" Width="100px"></ProgressBar>
+        Title="MainWindow" Height="480" Width="640">
+  <DockPanel>
+    <Menu DockPanel.Dock="Top">
+      <MenuItem Header="File">
+        <MenuItem Header="Contacts" Click="OpenContacts">
+        </MenuItem>
+      </MenuItem>
+    </Menu>
+    <StackPanel Orientation="Vertical">
+      <StackPanel Margin="0,30,0,0" Orientation="Horizontal">
+                <Button Margin="50,0,50,0" Width="200px" Height="200px" Name="EncryptFolder" Click="OpenFolder">
+                    <Image Width="200px"  Height="200px" Source="./Assets/EncryptFolder.png"/>
+        </Button>
+        <Button Margin="50,0,50,0" Width="200px" Height="200px" Click="OpenFile" Name="EncryptFile">
+          <Image Source="./Assets/EncryptFile.png"/>
+        </Button>
+      </StackPanel>
+
+      <Grid Margin="10,10,10,0">
+	<Grid.ColumnDefinitions>
+	  <ColumnDefinition Width="0.11*"/>
+	  <ColumnDefinition Width="0.89*"/>
+	</Grid.ColumnDefinitions>
+    <Label HorizontalAlignment="Right">
+          <AccessText Text="Target:" Grid.Column="0" ></AccessText>
+	</Label>
+    <Label Grid.Column="1" Background="GhostWhite">
+          <AccessText Grid.Column="1" Background="GhostWhite" Margin="0,0,10,0" Name="FilePath" Text=""></AccessText>
+    </Label>
+      </Grid>
+      <Grid Margin="10,10,10,0">
+	<Grid.ColumnDefinitions>
+	  <ColumnDefinition Width="0.11*"/>
+	  <ColumnDefinition Width="0.89*"/>
+	</Grid.ColumnDefinitions>
+        <Label   HorizontalAlignment="Right">
+          <AccessText Grid.Column="0" Text="Receipient:"></AccessText>
+        </Label>
+        <ComboBox Grid.Column="1" Margin="0,0,10,0" Name="contactList" DisplayMemberPath="FullName"></ComboBox>
+      </Grid>
+            <Grid Margin="10,10,10,0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="0.2*"/>
+                    <ColumnDefinition Width="0.8*"/>
+                </Grid.ColumnDefinitions>
+                <ProgressBar Grid.Column="0" x:Name="Progress0" Height="20px"/>
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Grid.Column="1">
+                    <Button Content="Encrypt" Click="ProceedEncrypt" Margin="0,0,10,0"/>
+                    <Button Content="Clear" Click="ProceedClear" Margin="0,0,10,0"/>
                 </StackPanel>
-                <StackPanel Orientation="Horizontal" Width="100px" Margin="290,0,0,0">
-                    <Button Content="Encrypt" Click="ProceedEncrypt" Margin="0,0,10,0"></Button>
-                    <Button Content="Clear" Click="ProceedClear" Margin="0,0,10,0"></Button>
-                </StackPanel>
-            </StackPanel>
+            </Grid>
         </StackPanel>
-    </DockPanel>
+
+    <!-- <StackPanel> -->
+    <!--   <Label> -->
+    <!--     <AccessText Text="Receipient:"></AccessText> -->
+    <!--   </Label> -->
+    <!--   <ComboBox Name="contactList" DisplayMemberPath="FullName"></ComboBox> -->
+    <!--   <Label> -->
+    <!--     <AccessText Text="File:"></AccessText> -->
+    <!--   </Label> -->
+    <!--   <StackPanel Orientation="Horizontal" Background="GhostWhite"> -->
+    <!--     <Label> -->
+    <!--       <AccessText Name="FilePath" Width="700" Text=""></AccessText> -->
+    <!--     </Label> -->
+    <!--     <Button Margin="10,0,0,0" Width="20" Grid.Column="1" Content="..." VerticalAlignment="Center" Click="OpenFile"></Button> -->
+    <!--   </StackPanel> -->
+    <!--   <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Margin="0,10,0,0"> -->
+    <!--     <StackPanel Orientation="Horizontal" Width="390px" Margin="10,0,0,0" HorizontalAlignment="Left"> -->
+    <!--       <ProgressBar x:Name="Progress0" Height="20px" Width="100px"></ProgressBar> -->
+    <!--     </StackPanel> -->
+    <!--     <StackPanel Orientation="Horizontal" Width="100px" Margin="290,0,0,0"> -->
+    <!--       <Button Content="Encrypt" Click="ProceedEncrypt" Margin="0,0,10,0"></Button> -->
+    <!--       <Button Content="Clear" Click="ProceedClear" Margin="0,0,10,0"></Button> -->
+    <!--     </StackPanel> -->
+    <!--   </StackPanel> -->
+    <!-- </StackPanel> -->
+
+  </DockPanel>
+
+
 
 </Window>
